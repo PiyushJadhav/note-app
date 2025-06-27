@@ -10,10 +10,12 @@ class Item(BaseModel):
 app = FastAPI()
 
 
+# get is like get users info and then this would return it but not sens info
 @app.get("/")
 async def root():
     return {"message": "hi!"}
 
+# post could be to create a new user 
 @app.post("/info")
 async def info(inf : Item):
     item_dic = inf.dict()
