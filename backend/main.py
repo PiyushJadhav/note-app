@@ -2,27 +2,25 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 
 
-class Item(BaseModel):
-    name: str
-    email: str
-    age: int
+db = {}
+id = 0
+
+class Note(BaseModel):
+    title: str
+    content: str
 
 app = FastAPI()
 
 
-# get is like get users info and then this would return it but not sens info
-@app.get("/")
-async def root():
-    return {"message": "hi!"}
+@app.post("/notes/")
+async def create(note : Note):
+    global id
+    db[id] = note
+    id += 1
+    response = {"id" : id, **note.dict()}
+    return response
 
-# post could be to create a new user 
-@app.post("/info")
-async def info(inf : Item):
-    item_dic = inf.dict()
-    if 'pj' in item_dic or 'pj' in item_dic.values():
-        return {"message": "success!"}
-    else:
-        return {"message": "failure!"}
+
     
 
 
