@@ -1,20 +1,32 @@
 import "./App.css";
 import { useState } from "react";
+import axios from "axios";
 
 function App() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, content });
-    setTitle("");
-    setContent("");
+    try {
+      const response = await axios.post("http://localhost:8000/notes/", {
+        title: title,
+        content: content,
+      });
+
+      console.log("Note created:", response.data);
+
+      setTitle("");
+      setContent("");
+      alert("You created your Note");
+    } catch (error) {
+      console.error("Error creating note", error);
+    }
   };
 
   return (
     <div className="container">
-      <h1>Create a Note</h1>
+      <h1>Create a Note!</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Title:
