@@ -34,6 +34,17 @@ async def create(note : Note):
 def return_all_notes():
     return db
 
+@app.get("notes/{noteid}")
+def return_specific_note(noteid):
+    if noteid in db:
+        response = {noteid : db[noteid]}
+        return response
+    else:
+        return -1
+        
+
+
+
 
 
     
