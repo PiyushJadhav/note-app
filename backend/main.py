@@ -34,13 +34,13 @@ async def create(note : Note):
 def return_all_notes():
     return db
 
-@app.get("notes/{noteid}")
-def return_specific_note(noteid):
+@app.get("/notes/{noteid}")
+def return_specific_note(noteid: int):
     if noteid in db:
-        response = {noteid : db[noteid]}
+        response = {"id:" : noteid,  **db[noteid].dict()}
         return response
     else:
-        return -1
+        return {"error:", "Note not found"}
         
 
 
