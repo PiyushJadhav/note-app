@@ -40,8 +40,18 @@ def return_specific_note(noteid: int):
         response = {"id:" : noteid,  **db[noteid].dict()}
         return response
     else:
-        return {"error:", "Note not found"}
-        
+        return {"error:", "Note not found"}, 404
+    
+
+@app.put("/notes/{noteid}")
+def update_specific_note(noteid : int, title: str, content: str):
+    if noteid in db:
+        note = Note(title=title, content=content)
+        db[noteid] = note
+        response = {id: noteid, **db[noteid].dict()}
+        return response
+    else:
+        return {"error": "Note not found"}, 404        
 
 
 
