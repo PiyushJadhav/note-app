@@ -44,8 +44,8 @@ def return_specific_note(noteid: int):
     
 # change the input to a note instead of title, content
 @app.put("/notes/{noteid}")
-def update_specific_note(noteid : int, title: str, content: str):
-    if noteid in db:
+def update_specific_note(note : Note):
+    if note.title in db:
         note = Note(title=title, content=content)
         db[noteid] = note
         response = {"id": noteid, **db[noteid].dict()}
