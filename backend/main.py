@@ -59,7 +59,7 @@ def update_specific_note(noteid: int, note: Note):
 def delete_note(noteid: int):
     if noteid in db:
         del db[noteid]
-        response = {"{noteid}" : "deleted successfuly"}
+        response = {f"{noteid}" : "deleted successfuly"}
         return response
     else:
         from fastapi import HTTPException
