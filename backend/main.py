@@ -44,14 +44,26 @@ def return_specific_note(noteid: int):
     
 # change the input to a note instead of title, content
 @app.put("/notes/{noteid}")
-def update_specific_note(note : Note):
-    if note.title in db:
-        note = Note(title=title, content=content)
+def update_specific_note(noteid: int, note: Note):
+    if noteid in db:
+        # Update the note in the database
         db[noteid] = note
-        response = {"id": noteid, **db[noteid].dict()}
+        response = {"id": noteid, **note.dict()}
         return response
     else:
-        return {"error": "Note not found"}, 404        
+        # Raise an HTTPException if the note is not found
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="Note not found")  
+
+@app.delete("/notes/{noteid}")
+def delete_note(noteid: int):
+    if noteid in db:
+        del db[noteid]
+        response = {f"{noteid}" : "deleted successfuly"}
+        return response
+    else:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="Note doesn't exist")
 
 
 
